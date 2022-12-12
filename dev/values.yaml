@@ -1,0 +1,5 @@
+global:
+  env: "dev"
+  # enable reloader detect and restart deployment
+  reloader:
+    enabled: true

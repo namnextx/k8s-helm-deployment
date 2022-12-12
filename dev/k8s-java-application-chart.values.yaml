@@ -1,0 +1,7 @@
+java_application_chart:
+  port: 3000
+  identity_key: testkey
+  image:
+    repository: ghcr.io/namnextx/k8s-java-application
+    pullPolicy: IfNotPresent
+    tag: dev-64ef8a1

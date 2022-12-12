@@ -1,0 +1,69 @@
+name: DEV Deployment
+on:
+  push:
+    branches:
+      - develop
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  OWNER_REPO: "namnextx"
+  CHART_REGISTRY: "ghcr.io"
+  CHART_NAME: k8s-helm-chart
+  NAMESPACE: "node-app-with-helm"
+  ENV: dev
+  GKE_CLUSTER: ${{ secrets.GKE_CLUSTER }}
+  GKE_CONTEXT: ${{ secrets.GKE_CONTEXT }}
+  GKE_ZONE: ${{ secrets.GKE_ZONE }}
+  GKE_PROJECT: ${{ secrets.GKE_PROJECT }}
+jobs:
+  deploy-develop-env:
+    runs-on: ubuntu-latest
+    environment: dev
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: auth
+        uses: 'google-github-actions/auth@v1'
+        with:
+          credentials_json: '${{ secrets.GOOGLE_CREDENTIALS }}'
+
+      - name: Setup google cli
+        uses: google-github-actions/setup-gcloud@v1
+
+      - name: 'Use gcloud CLI'
+        run: 'gcloud info'
+
+#       - name: kube config
+#         uses: azure/k8s-set-context@v2
+#         with:
+#           method: kubeconfig
+#           kubeconfig: ${{ secrets.KUBE_CONFIG_DEVELOP }}
+
+      - name: Set up Helm
+        uses: azure/setup-helm@v1
+        with:
+          version: v3.9.0
+
+      - name: Deploy Application to Kubernetes
+        env:
+          REGISTRY_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+
+          echo "$REGISTRY_PASSWORD" | helm registry login -u namnextx --password-stdin ${CHART_REGISTRY}
+
+          gcloud components install gke-gcloud-auth-plugin
+
+          gcloud container clusters get-credentials ${GKE_CLUSTER} \
+            --zone ${GKE_ZONE} \
+            --project ${GKE_PROJECT}
+
+          kubectl config use-context ${GKE_CONTEXT}
+
+          helm dep up .
+
+          helm upgrade -i ${CHART_NAME} . \
+            -f "./${ENV}/k8s-java-application-chart.values.yaml" \
+            -n "${NAMESPACE}"
