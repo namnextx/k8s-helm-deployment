@@ -11,7 +11,7 @@ env:
   OWNER_REPO: "namnextx"
   CHART_REGISTRY: "ghcr.io"
   CHART_NAME: k8s-helm-chart
-  NAMESPACE: "k8s-helm-chart"
+  NAMESPACE: "k8s-helm-larning"
   ENV: dev
   GKE_CLUSTER: ${{ secrets.GKE_CLUSTER }}
   GKE_CONTEXT: ${{ secrets.GKE_CONTEXT }}
