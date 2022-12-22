@@ -10,7 +10,7 @@ concurrency:
 env:
   OWNER_REPO: "namnextx"
   CHART_REGISTRY: "ghcr.io"
-  CHART_NAME: k8s-helm-chart
+  CHART_NAME: "k8s_helm_chart"
   NAMESPACE: "node-app-with-helm"
   ENV: dev
   GKE_CLUSTER: ${{ secrets.GKE_CLUSTER }}
