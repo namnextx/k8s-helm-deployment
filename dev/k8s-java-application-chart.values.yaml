@@ -1,13 +1,11 @@
-image:
-  repository: ghcr.io/namnextx/k8s-java-application
-  tag: dev-64ef8a1
-replicaNumber: 1
-deployment:
-  containerPort: 8080
-service:
-  type: ClusterIP
-  port: 80
-nameOverride: java-application
 java_application_chart:
   image:
+    repository: ghcr.io/namnextx/k8s-java-application
     tag: dev-6915d47
+  replicaNumber: 1
+  deployment:
+    containerPort: 8080
+  service:
+    type: ClusterIP
+    port: 80
+  nameOverride: java-application
