@@ -11,6 +11,6 @@ dependencies:
     version: 0.0.99
     repository: https://stakater.github.io/stakater-charts
   - name: java-application-chart
-    version: 1.0.3
+    version: 1.0.4
     repository: oci://ghcr.io/namnextx
     alias: java_application_chart # alias will use in github action development workflow, pas value of value file to specific chart
