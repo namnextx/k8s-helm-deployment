@@ -1,7 +1,7 @@
 java_application_chart:
   image:
     repository: ghcr.io/namnextx/k8s-java-application
-    tag: dev-81e97b2
+    tag: dev-276758b
   replicaNumber: 1
   deployment:
     containerPort: 8080
